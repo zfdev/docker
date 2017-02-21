@@ -8,6 +8,7 @@ deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe m
 deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse\n\
 ' > /etc/apt/sources.list && \
 apt-get update && \
+apt-get upgrade -y && \
 apt-get install -y deluged \
 deluge-webui
 
