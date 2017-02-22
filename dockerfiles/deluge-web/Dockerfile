@@ -12,4 +12,4 @@ apt-get upgrade -y && \
 apt-get install -y deluged \
 deluge-webui
 
-CMD /usr/bin/deluge-web
+CMD /usr/bin/deluged && /usr/bin/deluge-web
