@@ -36,6 +36,10 @@
         [Install]
         WantedBy=default.target
 
+3. Visit `http://localhost:<host_port>, the default password is `deluge`.
+
+4. Modify the download directory to <container_volumn>.
+
 ---
 
 
