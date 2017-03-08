@@ -11,3 +11,5 @@ apt-get update && \
 apt-get upgrade -y && \
 apt-get install -y shadowsocks-libev && \
 mkdir -p /config
+
+CMD /usr/bin/ss-local -c /config/config.json &
