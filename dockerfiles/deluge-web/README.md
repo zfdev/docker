@@ -8,6 +8,10 @@
 
         docker pull d0u9/deluge_web
 
+    For china users, use aliyun docker mirror instead:
+
+        docker pull registry.cn-hangzhou.aliyuncs.com/master/shadowsocks-libev
+
 2. From DockerFile
 
         cd /tmp
