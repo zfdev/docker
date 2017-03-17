@@ -12,7 +12,8 @@ RUN : \
 #    deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse\n\
 #    ' > /etc/apt/sources.list \
  && apt-get update \
- && apt-get install -y deluged \
+ && apt-get install -y --no-install-recommends \
+    deluged \
     deluge-webui \
  && rm -fr /var/lib/apt/lists/*
 
