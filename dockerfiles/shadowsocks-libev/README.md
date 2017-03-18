@@ -22,7 +22,7 @@
 
 1. Run container
 
-        docker --name <container_name> -d -p 1080:1080 -v <dir_contains_config_json>:/config shadowsocks-libev
+        docker --name <container_name> -d -p 1080:1080 -v <dir_contains_config_json>:<config_file_in_docker> shadowsocks-libev <config_file_in_docker>
 
 2. Automatically start container after booting
 
