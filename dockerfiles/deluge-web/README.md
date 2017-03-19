@@ -21,7 +21,14 @@
 
 1. Run container
 
-        docker --name <container_name> -d -p <host_port>:8112 -v <host_volumn>:<container_volumn> deluge_web
+        docker -d \
+            --name <container_name> \
+            -p <host_port>:8112 \
+            -v <host_volumn>:<container_volumn> \
+            -e PUID=<UID> \
+            -e PGID=<GID> \
+            -e UMASK=<UMASK> \
+            deluge_web
 
 2. Automatically start container after booting
 
@@ -42,7 +49,10 @@
 
 3. Visit `http://localhost:<host_port>, the default password is `deluge`.
 
-4. Modify the download directory to <container_volumn>.
+4. After login, modify the download directory to the location where host volumn
+mounted.
+
+5. Modify the download directory to <container_volumn>.
 
 ---
 
