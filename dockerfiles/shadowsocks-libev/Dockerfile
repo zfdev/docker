@@ -32,5 +32,5 @@ RUN set -x \
 
 EXPOSE 1080/tcp
 
-COPY run-ss.sh /usr/local/bin/
-ENTRYPOINT ["run-ss.sh"]
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
