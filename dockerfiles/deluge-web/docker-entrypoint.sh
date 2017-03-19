@@ -18,5 +18,5 @@ if [ "$PUID" != "0" ]; then
 fi
 
 exec start-stop-daemon -S -c $USER:$GROUP -k $UMASK -x /usr/bin/deluged -- -d &
-gosu deluge:deluge deluge-web
+exec gosu deluge:deluge deluge-web
 

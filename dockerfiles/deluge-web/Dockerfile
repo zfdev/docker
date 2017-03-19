@@ -31,7 +31,7 @@ RUN set -x \
 	&& gosu nobody true \
 	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr
 
-EXPOSE 8112
+EXPOSE 8112/tcp
 
 COPY docker-entrypoint.sh /usr/local/bin
 
