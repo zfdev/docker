@@ -13,7 +13,7 @@ RUN : \
 	&& apt-get install -y --no-install-recommends \
 		shadowsocks-libev \
 		ca-certificates \
-        dirmngr \
+		dirmngr \
 		wget \
 	&& rm -fr /var/lib/apt/lists/*
 
