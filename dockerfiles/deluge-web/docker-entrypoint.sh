@@ -2,21 +2,27 @@
 
 PUID=${PUID:-0}
 PGID=${PGID:-0}
+UMASK=${UMASK:-$(umask)}
 
-USER="deluge"
-GROUP="deluge"
+# For the first run
+SEALED_OFF="/sealed_off"
+if [ ! -f $SEALED_OFF ]; then
+    if [ "$PGID" != "0" ]; then
+        GROUP="deluge"
+        groupadd -g $PGID $GROUP
+    fi
 
-if [ "$PGID" != "0" ]; then
-    groupadd -g $PGID $GROUP
+    if [ "$PUID" != "0" ]; then
+        USER="deluge"
+        useradd -m -s /sbin/nologin -u $PUID -g $PGID $USER
+        echo "umask $UMASK" >> /home/$USER/.bashrc
+    else
+        echo "umask $UMASK" >> /root/.bashrc
+    fi
+
+    touch $SEALED_OFF
 fi
 
-if [ "$PUID" != "0" ]; then
-    useradd -m -s /sbin/nologin -u $PUID -g $PGID $USER
-
-    UMASK=${UMASK:-$(umask)}
-    echo "umask $UMASK" >> /home/$USER/.bashrc
-fi
-
-exec start-stop-daemon -S -c $USER:$GROUP -k $UMASK -x /usr/bin/deluged -- -d &
-exec gosu deluge:deluge deluge-web
+exec start-stop-daemon -S -c $PUID:$PGID -k $UMASK -x /usr/bin/deluged -- -d &
+exec gosu $PUID:$PGID deluge-web
 
