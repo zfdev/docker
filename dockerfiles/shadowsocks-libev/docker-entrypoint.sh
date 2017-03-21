@@ -16,7 +16,7 @@ enable_kcptun=${enable_kcptun+"ENABLE"}
 kcpargs="$kcpargs"
 if [ "$cmd" = "client" ]; then
     if [ "$enable_kcptun" = "ENABLE" ]; then
-        eval "gosu nobody:nogroup /usr/local/bin/kcp-client $kcpargs" &
+        eval gosu nobody:nogroup /usr/local/bin/kcp-client $kcpargs &
         while true; do
             port=$(gosu nobody:nogroup netstat -tlnp | awk '($7 ~ /kcp-client/){print $4}' | awk 'BEGIN{FS=":"}; {print $NF}')
             [ -z "$port" ] || break
@@ -31,6 +31,6 @@ if [ "$cmd" = "server" ]; then
     exec gosu nobody:nogroup /usr/bin/ss-server -c $config_file &
 
     if [ "$enable_kcptun" = "ENABLE" ]; then
-        eval "gosu nobody:nogroup /usr/local/bin/kcp-server $kcpargs"
+        eval gosu nobody:nogroup /usr/local/bin/kcp-server $kcpargs
     fi
 fi
