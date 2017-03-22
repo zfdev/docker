@@ -27,10 +27,26 @@ RUN set -x \
 	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
 	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
-	&& gosu nobody true \
+	&& gosu nobody true
+
+# install kcptun
+ENV KCPTUN_VERSION 20170315
+RUN set -x \
+	&& wget -O /tmp/kcptun.tar.gz "https://github.com/xtaci/kcptun/releases/download/v$KCPTUN_VERSION/kcptun-linux-$(dpkg --print-architecture)-$KCPTUN_VERSION.tar.gz" \
+	&& tar -xf /tmp/kcptun.tar.gz -C /tmp \
+	&& rm -fr /tmp/kcptun.tar.gz \
+	&& mv /tmp/client_linux_$(dpkg --print-architecture) /usr/local/bin/kcp-client \
+	&& mv /tmp/server_linux_$(dpkg --print-architecture) /usr/local/bin/kcp-server
+
+# install jq for json parse
+ENV JQ_VERSION 1.5
+RUN set -x \
+	&& wget -O /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-$JQ_VERSION/jq-linux$(dpkg --print-architecture | tr -d 'amd')" \
+	&& chmod a+x /usr/local/bin/jq \
 	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr
 
 EXPOSE 1080/tcp
 
 COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["docker-entrypoint.sh"]
+
