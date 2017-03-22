@@ -12,13 +12,13 @@ if [ ! -f $ss_config_file ]; then
     exit 1
 fi
 
+enable_kcp=${enable_kcp+"ENABLE"}
 kcp_config_file=${kcp_config_file:-"NULL"}
-if [ ! -f $kcp_config_file ]; then
+if [ ! -f $kcp_config_file ] && [ "$enable_kcp" = "ENABLE" ]; then
     echo "kcptun config file = $kcp_config_file is not a regular file or does not exist"
     exit 1
 fi
 
-enable_kcp=${enable_kcp+"ENABLE"}
 if [ "$cmd" = "client" ]; then
     if [ "$enable_kcp" = "ENABLE" ]; then
         exec gosu nobody:nogroup /usr/local/bin/kcp-client -c $kcp_config_file > /dev/null 2>&1 &
