@@ -2,6 +2,9 @@
 
 ---
 
+This image aims to easy the depolyment of shadowsocks on both server and client.
+kcptun is included as well for people who want to benefit from the kcp protocol.
+
 ## Install
 
 1. From DockerHUB
@@ -24,14 +27,27 @@
 
         docker run -d \
             --name <container_name> \
-            -p 1080:1080 \
-            -v <dir_contains_config_json>:<config_file_in_docker> \
-            -e CONFIG_FILE=<config_file_in_docker> \
+            -e cmd=[client|server] \
+            -v <ss_config_file>:<ss_config_file_in_container>:ro \
+            -e ss_config_file=<ss_config_file_in_container> \
+            -p <host_ss_port>:<ss_port> \
+            -e enable_kcp=true \
+            -v <kcp_config_file>:<kcp_config_file_in_container>:ro \
+            -e kcp_config_file=<kcp_config_file_in_container> \
+            -p <host_kcp_port>:<kcp_port> \
             shadowsocks-libev
+
+    To depoly this image as server, assign `server` to the `cmd` environment.
+    Similarly, assigning `client` to `cmd` will depoly this image as a shadowsocks
+    client.
+
+    To disable the kcp function in this image, simply ignore the `enable_kcp`
+    environment variable.
 
 2. Automatically start container after booting
 
-    Create `/etc/systemd/system/docker-shadowsocks_libev.service`, and fill with content below:
+    Create `/etc/systemd/system/docker-shadowsocks_libev.service`, and fill
+    with the contents below:
 
         [Unit]
         Description=Shadowsocks libev Container
@@ -45,8 +61,6 @@
 
         [Install]
         WantedBy=default.target
-
-3. Set your browser's proxy to `IP:1080`, and enjoy it.
 
 ---
 
