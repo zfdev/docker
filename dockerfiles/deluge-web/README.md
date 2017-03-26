@@ -52,8 +52,6 @@
 4. After login, modify the download directory to the location where host volumn
 mounted.
 
-5. Modify the download directory to <container_volumn>.
-
 ---
 
 
