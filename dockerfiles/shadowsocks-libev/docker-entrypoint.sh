@@ -29,14 +29,15 @@ if [ "$cmd" = "client" ]; then
             exec gosu nobody:nogroup /usr/bin/ss-local -c $ss_config_file -s 127.0.0.1 -p $port > /dev/null 2>&1
         fi
     else
-        exec gosu nobody:nogroup /usr/bin/ss-local -c $ss_config_file 2>&1 > /dev/null
+        exec gosu nobody:nogroup /usr/bin/ss-local -c $ss_config_file > /dev/null 2>&1
     fi
 fi
 
 if [ "$cmd" = "server" ]; then
-    exec gosu nobody:nogroup /usr/bin/ss-server -c $ss_config_file > /dev/null 2>&1 &
-
     if [ "$enable_kcp" = "ENABLE" ]; then
+        exec gosu nobody:nogroup /usr/bin/ss-server -c $ss_config_file > /dev/null 2>&1 &
         exec gosu nobody:nogroup /usr/local/bin/kcp-server -c $kcp_config_file > /dev/null 2>&1
+    else
+        exec gosu nobody:nogroup /usr/bin/ss-server -c $ss_config_file > /dev/null 2>&1
     fi
 fi

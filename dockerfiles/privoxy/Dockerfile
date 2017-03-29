@@ -11,8 +11,7 @@ RUN : \
 #		' > /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
-		deluged \
-		deluge-webui \
+		privoxy \
 		ca-certificates \
 		dirmngr \
 		wget \
@@ -30,16 +29,6 @@ RUN set -x \
 	&& chmod +x /usr/local/bin/gosu \
 	&& gosu nobody true \
 	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr
-
-# Patch for chinese torrent files
-RUN FILE=$(find /usr/lib -path "*/deluge/ui/web/json_api.py") \
-    && sed -i '/json\.dumps/c\\
-        try:\n\
-            response = json.dumps(response)\n\
-        except Exception,e:\n\
-            response = json.dumps(response,ensure_ascii=False)' $FILE
-
-EXPOSE 8112/tcp
 
 COPY docker-entrypoint.sh /usr/local/bin
 
