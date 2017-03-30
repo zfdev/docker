@@ -32,7 +32,8 @@ RUN buildDeps=' \
 	&& rm ghost.zip \
 	&& npm cache clean \
 	&& rm -rf /tmp/npm* \
-	&& apt-get purge -y --auto-remove ca-certificates wget
+	&& apt-get purge -y --auto-remove ca-certificates wget \
+	&& rm -fr /var/lib/apt/lists/*
 
 ENV GHOST_CONTENT /var/lib/ghost
 RUN mkdir -p "$GHOST_CONTENT" \
