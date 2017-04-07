@@ -45,6 +45,13 @@
         [Install]
         WantedBy=default.target
 
+## Note
+
+If the shadowsocks client to which provixy forwards traffic runs in another
+container, use `--link` option to add privoxy container to the network of
+shadowsocks container. The container name is the host name which can be visited
+directly.
+
 ---
 
 
