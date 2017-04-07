@@ -32,4 +32,5 @@ RUN set -x \
 
 COPY docker-entrypoint.sh /usr/local/bin
 
-CMD ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["privoxy", "start"]
