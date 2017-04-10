@@ -1,4 +1,6 @@
-FROM ubuntu:16.04
+# For ubuntu, the latest tag points to the LTS version, since that is
+# recommended for general use.
+FROM ubuntu:latest
 
 RUN : \
 ## For local build in China, uncomment the below lines to use aliyun mirror
