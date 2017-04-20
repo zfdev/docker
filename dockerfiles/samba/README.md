@@ -88,7 +88,6 @@
     there it is and it is valid, all the users and groups will be imported
     properly.
 
-
     Note:
 
     the password for samba user is defauly saved somewhere according to the
