@@ -92,10 +92,10 @@
 
     the password for samba user is defauly saved somewhere according to the
     `smb.conf` file. This loacation can be change by adding(or modifying) the
-    
-    
-    
+    `passdb backend` field (if you use samba as a standalone server, and manage
+    users via passdb):
 
+        passdb backend = tdbsam:/etc/samba/passdb.tdb
 
 ---
 
