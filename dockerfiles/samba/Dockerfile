@@ -1,3 +1,5 @@
+# For ubuntu, the latest tag points to the LTS version, since that is
+# recommended for general use.
 FROM ubuntu:latest
 
 RUN : \
@@ -11,7 +13,7 @@ RUN : \
 #		' > /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
-		privoxy \
+        samba \
 		ca-certificates \
 		dirmngr \
 		wget \
@@ -30,7 +32,12 @@ RUN set -x \
 	&& gosu nobody true \
 	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr
 
-COPY docker-entrypoint.sh /usr/local/bin
+ENV SMB_CONF_DIR /var/samba
+RUN mkdir -p "$SMB_CONF_DIR"
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["privoxy", "start"]
+COPY docker-entrypoint.sh /usr/local/bin
+COPY usradmin smb_export smb_import /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 139 445
+CMD ["smb", "start"]
