@@ -34,10 +34,12 @@ if [ "$CMD" = "client" ]; then
 fi
 
 if [ "$CMD" = "server" ]; then
+    TMP_SS_CONFIG_FILE=/tmp/tmp_ss_config_file.json
+    jq -r ".server = \"0.0.0.0\"" $SS_CONFIG_FILE > $TMP_SS_CONFIG_FILE
     if [ "$ENABLE_KCP" = "ENABLE" ]; then
-        exec gosu nobody:nogroup /usr/bin/ss-server -c $SS_CONFIG_FILE > /dev/null 2>&1 &
+        exec gosu nobody:nogroup /usr/bin/ss-server -c $TMP_SS_CONFIG_FILE > /dev/null 2>&1 &
         exec gosu nobody:nogroup /usr/local/bin/kcp-server -c $KCP_CONFIG_FILE > /dev/null 2>&1
     else
-        exec gosu nobody:nogroup /usr/bin/ss-server -c $SS_CONFIG_FILE > /dev/null 2>&1
+        exec gosu nobody:nogroup /usr/bin/ss-server -c $TMP_SS_CONFIG_FILE > /dev/null 2>&1
     fi
 fi
