@@ -1,6 +1,6 @@
 # http://support.ghost.org/supported-node-versions/
 # https://github.com/nodejs/LTS
-FROM node:8-slim
+FROM node:6-slim
 
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
@@ -25,7 +25,7 @@ RUN buildDeps=' \
 	' \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-	&& wget -O ghost.zip "https://ghost.org/zip/ghost-latest.zip" \
+	&& wget -O ghost.zip "https://github.com/TryGhost/Ghost/releases/download/0.11.11/Ghost-0.11.11.zip" \
 	&& unzip ghost.zip \
 	&& npm install --production \
 	&& apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
