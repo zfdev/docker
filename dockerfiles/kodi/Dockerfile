@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:17.10
 
 RUN : \
 ## For local build in China, uncomment the below lines to use aliyun mirror
