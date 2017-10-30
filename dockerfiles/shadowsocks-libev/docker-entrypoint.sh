@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 pgid=${PGID:-$(id -u nobody)}
