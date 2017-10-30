@@ -11,11 +11,6 @@ kcptun is included as well for people who want to benefit from the kcp protocol.
 
         docker pull d0u9/shadowsocks-libev
 
-    For china users, aliyun docker repo is more preferable:
-
-        docker pull registry.cn-hangzhou.aliyuncs.com/master/shadowsocks-libev
-
-
 2. From DockerFile
 
         cd /tmp
@@ -46,11 +41,11 @@ kcptun is included as well for people who want to benefit from the kcp protocol.
 
 2. Automatically start container after booting
 
-    Create `/etc/systemd/system/docker-shadowsocks_libev.service`, and fill
+    Create `/etc/systemd/system/docker-shadowsocks_kcptun.service`, and fill
     with the contents below:
 
         [Unit]
-        Description=Shadowsocks libev Container
+        Description=Shadowsocks and kcptun Container
         Requires=docker.service
         After=docker.service
 
