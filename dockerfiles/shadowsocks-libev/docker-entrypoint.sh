@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 pgid=${PGID:-$(id -u nobody)}
 puid=${PUID:-$(id -g nobody)}
-cmd=$(tr "[:upper:]" "[:lower:]" <<< """${CMD:-NULL}""")
-config_file=${SS_CONFIG_FILE:-null}
 
 if [[ "$*" == "shadowsocks-libev" ]]; then
+    cmd=$(echo ${CMD:-NULL} | tr "[:upper:]" "[:lower:]")
+    config_file=${SS_CONFIG_FILE:-null}
     [ ! -f $config_file ] && exit 1
 
     if [ "$cmd" = "client" ]; then
