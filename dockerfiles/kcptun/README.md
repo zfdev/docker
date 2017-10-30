@@ -2,9 +2,9 @@
 
 ---
 
-Image for [shadowsocks-libev][shadowsocks_libev]
+Image for [kcptun][kcptun_github]
 
-[shadowsocks_libev]: https://github.com/shadowsocks/shadowsocks-libev
+[kcptun_github]: https://github.com/xtaci/kcptun
 
 ## Install
 
@@ -24,20 +24,19 @@ Image for [shadowsocks-libev][shadowsocks_libev]
         docker run -d \
             --name <container_name> \
             --network <network> \
-            -e CMD=[server|client] \
-            -v <ss_config_file>:<ss_config_file_in_container>:ro \
-            -e SS_CONFIG_FILE=<ss_config_file_in_container> \
-            -p <host_ss_port>:<ss_port> \
-            d0u9/shadowsocks-libev
-
+            -e CMD=[client|server] \
+            -v <kcp_config_file>:<kcp_config_file_in_container>:ro \
+            -e KCP_CONFIG_FILE=<kcp_config_file_in_container> \
+            -p <host_kcp_port>:<kcp_port> \
+            d0u9/kcptun
 
 2. Automatically start container after booting
 
-    Create `/etc/systemd/system/docker-shadowsocks_libev.service`, and fill
+    Create `/etc/systemd/system/docker-kcptun.service`, and fill
     with the contents below:
 
         [Unit]
-        Description=Shadowsocks libev Container
+        Description=Shadowsocks and kcptun Container
         Requires=docker.service
         After=docker.service
 
