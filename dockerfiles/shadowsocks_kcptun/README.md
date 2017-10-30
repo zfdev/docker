@@ -30,7 +30,7 @@ kcptun is included as well for people who want to benefit from the kcp protocol.
             -v <kcp_config_file>:<kcp_config_file_in_container>:ro \
             -e KCP_CONFIG_FILE=<kcp_config_file_in_container> \
             -p <host_kcp_port>:<kcp_port> \
-            d0u9/shadowsocks-libev
+            d0u9/shadowsocks_kcptun
 
     To depoly this image as server, assign `server` to the `cmd` environment.
     Similarly, assigning `client` to `cmd` will depoly this image as a shadowsocks
