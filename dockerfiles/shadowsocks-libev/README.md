@@ -23,6 +23,7 @@ Image for [shadowsocks-libev][shadowsocks_libev]
 
         docker run -d \
             --name <container_name> \
+            -e CMD=[server|client] \
             -v <ss_config_file>:<ss_config_file_in_container>:ro \
             -e SS_CONFIG_FILE=<ss_config_file_in_container> \
             -p <host_ss_port>:<ss_port> \
