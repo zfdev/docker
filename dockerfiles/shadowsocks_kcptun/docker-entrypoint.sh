@@ -15,13 +15,13 @@ fi
 ENABLE_KCP=$(echo ${ENABLE_KCP:-"NULL"} | tr '[:upper:]' '[:lower:]')
 KCP_CONFIG_FILE=${KCP_CONFIG_FILE:-"NULL"}
 
-if [ ! -f $KCP_CONFIG_FILE ] && [ "$ENABLE_KCP" = "yes" ]; then
+if [ ! -f $KCP_CONFIG_FILE ] && [ "$ENABLE_KCP" != "null" ]; then
     echo "kcptun config file = $KCP_CONFIG_FILE is not a regular file or does not exist"
     exit 1
 fi
 
 if [ "$CMD" = "client" ]; then
-    if [ "$ENABLE_KCP" = "ENABLE" ]; then
+    if [ "$ENABLE_KCP" != "null" ]; then
         exec gosu nobody:nogroup /usr/local/bin/kcp-client -c $KCP_CONFIG_FILE > /dev/null 2>&1 &
         port=$(cat $KCP_CONFIG_FILE | jq '.localaddr'  | grep -o -P '\d+')
         if [ "$port" = "null" ]; then
