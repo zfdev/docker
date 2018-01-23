@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:rolling
 
 RUN : \
 ## For local build in China, uncomment the below lines to use aliyun mirror
@@ -30,7 +30,7 @@ RUN set -x \
 	&& gosu nobody true
 
 # install kcptun
-ENV KCPTUN_VERSION 20171021
+ENV KCPTUN_VERSION 20171201
 RUN set -x \
 	&& wget -O /tmp/kcptun.tar.gz "https://github.com/xtaci/kcptun/releases/download/v$KCPTUN_VERSION/kcptun-linux-$(dpkg --print-architecture)-$KCPTUN_VERSION.tar.gz" \
 	&& tar -xf /tmp/kcptun.tar.gz -C /tmp \
