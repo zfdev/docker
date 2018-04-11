@@ -30,7 +30,7 @@ RUN set -x \
 	&& gosu nobody true
 
 # install kcptun
-ENV KCPTUN_VERSION 20171201
+ENV KCPTUN_VERSION 20180316
 RUN set -x \
 	&& wget -O /tmp/kcptun.tar.gz "https://github.com/xtaci/kcptun/releases/download/v$KCPTUN_VERSION/kcptun-linux-$(dpkg --print-architecture)-$KCPTUN_VERSION.tar.gz" \
 	&& tar -xf /tmp/kcptun.tar.gz -C /tmp \
