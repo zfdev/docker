@@ -11,6 +11,7 @@ fi
 echo "First time run, initializing...."
 
 touch $init_file
+rm -fr /var/www/html/index.html
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /etc/ssl/private/apache-selfsigned.key \
@@ -40,6 +41,5 @@ mkdir /etc/password
 echo "Create user for webdav"
 read -p "username: " username
 htdigest -c /etc/password/digest-password WebDavServer $username
-rm -fr /var/www/html/*
 
 service apache2 restart
