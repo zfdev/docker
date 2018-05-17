@@ -39,17 +39,7 @@ RUN set -x \
 
 # Patch for chinese torrent files
 RUN FILE=$(find /usr/lib -path "*/deluge/ui/web/json_api.py") \
-	# &&  sed -ir 's/^(\s*)(response = json\.dumps\(response\))/\1try:\n\1    \2\n\1except Exception:\n\1    response = json.dumps(response,ensure_ascii=False)/' $FILE
-	&&  \
-sed -r 's/'\
-'^(\s*)(response = json\.dumps\(response\))'\
-'/'\
-'\1try:\n'\
-'\1    \2\n'\
-'\1except Exception:\n'\
-'\1    response = json.dumps(response,ensure_ascii=False)'\
-'/' > /tmp/tmp_deluge \
-	&& mv /tmp/tmp_deluge "$FILE"
+	&& sed -i -r 's|^(\s*)(response = json\.dumps\(response\))|\1try:\n\1    \2\n\1except Exception:\n\1    response = json.dumps(response,ensure_ascii=False)|g' $FILE
 
 EXPOSE 8112/tcp
 
