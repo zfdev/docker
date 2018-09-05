@@ -9,7 +9,7 @@ RUN : \
 	&& apk add su-exec
 
 # install kcptun
-ENV KCPTUN_VERSION 20180316
+ENV KCPTUN_VERSION 20180810
 ENV ARCH amd64
 RUN set -x \
 	&& wget -O /tmp/kcptun.tar.gz "https://github.com/xtaci/kcptun/releases/download/v$KCPTUN_VERSION/kcptun-linux-$ARCH-$KCPTUN_VERSION.tar.gz" \
