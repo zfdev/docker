@@ -1,4 +1,4 @@
-FROM ubuntu:rolling
+FROM ubuntu:latest
 
 RUN : \
 ## For local build in China, uncomment the below lines to use aliyun mirror
@@ -13,17 +13,22 @@ RUN : \
 	&& apt-get install -y --no-install-recommends \
 		shadowsocks-libev \
 		ca-certificates \
+		gpg \
 		dirmngr \
 		wget \
 	&& rm -fr /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
-ENV GOSU_VERSION 1.10
 RUN set -x \
+	&& GOSU_VERSION=1.10 \
+	&& GPG_KEYS=B42F6819007F00F88E364FD4036A9C25BF357DD4 \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	# && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& (  gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$GPG_KEYS" \
+	   || gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEYS" \
+	   || gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEYS" ) \
 	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
 	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
@@ -43,7 +48,7 @@ ENV JQ_VERSION 1.5
 RUN set -x \
 	&& wget -O /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-$JQ_VERSION/jq-linux$(dpkg --print-architecture | tr -d 'amd')" \
 	&& chmod a+x /usr/local/bin/jq \
-	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr
+	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr gpg
 
 EXPOSE 1080/tcp
 

@@ -16,30 +16,30 @@ RUN : \
 		deluged \
 		deluge-webui \
 		ca-certificates \
+		gpg \
 		dirmngr \
 		wget \
 	&& rm -fr /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
-ENV GOSU_VERSION 1.10
 RUN set -x \
+	&& GOSU_VERSION=1.10 \
+	&& GPG_KEYS=B42F6819007F00F88E364FD4036A9C25BF357DD4 \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	# && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& (  gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$GPG_KEYS" \
+	   || gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEYS" \
+	   || gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEYS" ) \
 	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
+	&& rm -r /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
 	&& gosu nobody true \
-	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr
+	&& apt-get purge -y --auto-remove ca-certificates wget dirmngr gpg
 
 # Patch for chinese torrent files
 RUN FILE=$(find /usr/lib -path "*/deluge/ui/web/json_api.py") \
-    && sed -i '/json\.dumps/c\\
-        try:\n\
-            response = json.dumps(response)\n\
-        except Exception,e:\n\
-            response = json.dumps(response,ensure_ascii=False)' $FILE
+	&& sed -i -r 's|^(\s*)(response = json\.dumps\(response\))|\1try:\n\1    \2\n\1except Exception:\n\1    response = json.dumps(response,ensure_ascii=False)|g' $FILE
 
 EXPOSE 8112/tcp
 
