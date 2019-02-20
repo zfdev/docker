@@ -19,23 +19,15 @@ RUN : \
 	&& rm -fr /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
-RUN set -x \
-	&& GOSU_VERSION=1.10 \
-	&& GPG_KEYS=B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
-	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	# && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-	&& (  gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$GPG_KEYS" \
-	   || gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEYS" \
-	   || gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEYS" ) \
-	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-	&& chmod +x /usr/local/bin/gosu \
+RUN set -eux \
+	&& apt-get update \
+	&& apt-get install -y gosu \
+	&& rm -rf /var/lib/apt/lists/* \
+# verify that the binary works
 	&& gosu nobody true
 
 # install kcptun
-ENV KCPTUN_VERSION 20180810
+ENV KCPTUN_VERSION 20190109
 RUN set -x \
 	&& wget -O /tmp/kcptun.tar.gz "https://github.com/xtaci/kcptun/releases/download/v$KCPTUN_VERSION/kcptun-linux-$(dpkg --print-architecture)-$KCPTUN_VERSION.tar.gz" \
 	&& tar -xf /tmp/kcptun.tar.gz -C /tmp \
