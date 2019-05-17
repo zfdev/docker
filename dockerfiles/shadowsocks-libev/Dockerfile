@@ -44,7 +44,7 @@ RUN set -eux; \
 
 # install shadowsocks-libev
 RUN set -eux; \
-	export SS_VERSION=3.2.4; \
+	export SS_VERSION=3.2.5; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends gettext build-essential autoconf libtool libpcre3-dev asciidoc xmlto automake libsodium-dev git; \
 	apt-get install -y --no-install-recommends libc-ares-dev libmbedtls-dev libev-dev; \

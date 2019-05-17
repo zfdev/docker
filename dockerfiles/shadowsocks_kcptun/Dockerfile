@@ -44,7 +44,7 @@ RUN set -eux; \
 
 # install kcptun
 RUN set -eux; \
-	export KCPTUN_VERSION=20190109; \
+	export KCPTUN_VERSION=20190515; \
 	wget -O /tmp/kcptun.tar.gz "https://github.com/xtaci/kcptun/releases/download/v$KCPTUN_VERSION/kcptun-linux-$(dpkg --print-architecture)-$KCPTUN_VERSION.tar.gz"; \
 	tar -xf /tmp/kcptun.tar.gz -C /tmp; \
 	rm -fr /tmp/kcptun.tar.gz; \
@@ -53,7 +53,7 @@ RUN set -eux; \
 
 # install shadowsocks-libev
 RUN set -eux; \
-	export SS_VERSION=3.2.4; \
+	export SS_VERSION=3.2.5; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends gettext build-essential autoconf libtool libpcre3-dev asciidoc xmlto automake libsodium-dev git; \
 	apt-get install -y --no-install-recommends libc-ares-dev libmbedtls-dev libev-dev; \
