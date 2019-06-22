@@ -2,6 +2,9 @@
 # recommended for general use.
 FROM python:3.6-slim
 
+RUN mkdir ~/.gnupg
+RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
 RUN set -x \
@@ -40,7 +43,7 @@ WORKDIR $YOUTUBE_DL_WEBUI_SOURCE
 
 RUN : \
 	&& pip install --no-cache-dir youtube-dl flask \
-	&& wget -O youtube-dl-webui.zip https://github.com/d0u9/youtube-dl-webui/archive/dev.zip \
+	&& wget -O youtube-dl-webui.zip https://github.com/d0u9/youtube-dl-webui/archive/0.2.2.zip \
 	&& unzip youtube-dl-webui.zip \
 	&& cd youtube-dl-webui*/ \
 	&& cp -r ./* $YOUTUBE_DL_WEBUI_SOURCE/ \
