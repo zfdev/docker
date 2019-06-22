@@ -2,6 +2,9 @@
 # recommended for general use.
 FROM python:3.6-slim
 
+RUN mkdir ~/.gnupg
+RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
 RUN set -x \
